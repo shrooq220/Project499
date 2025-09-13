@@ -488,3 +488,119 @@ button:hover {
     color: var(--text-light);
     line-height: 1.5;
 }
+/* =======================
+   TOKENS
+   ======================= */
+:root{
+  --ctrl-h: 44px;       /* equal height for button / input / tabs */
+  --ctrl-r: 12px;
+  --ctrl-pad-x: 16px;
+  --brand-brown: #8E7453;
+  --brand-brown-dk: #7B6649;
+}
+
+/* container width (if not already set) */
+.container{ max-width:1100px; margin:0 auto; padding:0 20px; }
+
+/* =======================
+   NAV OVER HERO (community only)
+   ======================= */
+body.community header{
+  position:absolute; top:0; left:0; right:0; z-index:20; background:transparent !important;
+}
+body.community .navigation{ background:transparent !important; box-shadow:none !important; }
+body.community .navigation a, body.community .navigation i{ color:#fff !important; text-decoration:none; }
+
+/* =======================
+   HERO
+   ======================= */
+.comm-hero{
+  background:url("/Pics/istockphoto-1311055822-612x612.jpg") center/cover no-repeat, var(--primary-color);
+  height:280px; position:relative; color:#fff;
+}
+.comm-hero::before{
+  content:""; position:absolute; inset:0;
+  background:linear-gradient(180deg,rgba(0,0,0,.32) 0%, rgba(0,0,0,0) 40%),
+             linear-gradient(0deg,rgba(0,0,0,.10), rgba(0,0,0,.10));
+}
+.comm-hero-overlay{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; }
+.comm-hero h1{ margin:0; font-size:44px; font-weight:700; text-shadow:0 2px 14px rgba(0,0,0,.35); }
+
+/* =======================
+   OVERLAPPING TOOLBAR
+   ======================= */
+.comm-toolbar.overlap{
+  position:relative; z-index:5; background:#fff; border-radius:14px;
+  box-shadow:0 10px 24px rgba(0,0,0,.12);
+  padding:10px;
+  display:grid; grid-template-columns:auto 1fr auto; gap:12px; align-items:center;
+  margin-top:-26px; border:1px solid #efe5db;
+}
+
+/* Primary button (Create) */
+.btn-same{
+  height:var(--ctrl-h);
+  padding:0 var(--ctrl-pad-x);
+  border:none; border-radius:12px;
+  background:var(--brand-brown);
+  color:#fff; font-weight:700; font-size:16px;
+  display:inline-flex; align-items:center; gap:8px; cursor:pointer;
+  transition:transform .15s ease, background .2s ease;
+  text-decoration:none;               /* ensure no underline */
+}
+.btn-same:hover{ background:var(--brand-brown-dk); transform:translateY(-1px); }
+
+/* Never underline any .btn-same link */
+a.btn-same, a.btn-same:visited, a.btn-same:hover, a.btn-same:focus{
+  text-decoration:none !important;
+}
+
+/* Search */
+.comm-search{ position:relative; }
+.comm-search i{
+  position:absolute; left:12px; top:50%; transform:translateY(-50%); color:#b7a693; pointer-events:none;
+}
+.input-same{
+  height:var(--ctrl-h); width:100%;
+  padding:0 var(--ctrl-pad-x) 0 38px;
+  border-radius:12px; border:1px solid #e5d9cd; background:#fff;
+  font-size:16px; color:#3f3223; outline:none;
+}
+.input-same:focus{ box-shadow:0 0 0 3px rgba(229,217,205,.6); }
+
+/* Tabs (pills) */
+.comm-tabs{ display:inline-flex; gap:8px; }
+.tab-pill{
+  height:var(--ctrl-h); padding:0 14px; border-radius:999px;
+  background:#fff; border:1px solid #e5d9cd; font-weight:600; color:#3f3223;
+  display:inline-flex; align-items:center; gap:8px; cursor:pointer; transition:transform .15s ease, background .15s ease;
+}
+.tab-pill:hover{ transform:translateY(-1px); }
+.tab-pill.tab-active{ background:#f7e9e4; border-color:#ecd9cd; }
+
+/* =======================
+   FEED / CARDS
+   ======================= */
+.comm-feed{ display:grid; gap:14px; margin-top:18px; margin-bottom:60px; }
+.comm-card{
+  background:#fff; border-radius:12px; box-shadow:0 4px 8px rgba(0,0,0,.06);
+  padding:18px 20px;
+}
+.comm-card-head{ display:flex; gap:12px; align-items:flex-start; margin-bottom:8px; }
+.avatar{ width:40px; height:40px; border-radius:50%; object-fit:cover; }
+.comm-card .meta{ color:#7a6b59; margin:0 0 2px; font-size:.96rem; }
+.comm-card h3{ margin:4px 0 6px; color:#3f3223; font-size:18px; line-height:1.35; }
+.comm-card p{ color:#3f3223; margin:0; line-height:1.6; }
+
+/* =======================
+   FOOTER
+   ======================= */
+.site-footer{ background:#f2e4d8; padding:24px 0; color:#3f3223; font-size:14px; text-align:center; }
+
+/* =======================
+   RESPONSIVE
+   ======================= */
+@media (max-width:860px){
+  .comm-toolbar.overlap{ grid-template-columns:1fr; gap:10px; margin-top:-18px; }
+  .btn-same{ width:100%; }
+}
