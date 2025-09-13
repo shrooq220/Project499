@@ -1,0 +1,490 @@
+@import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,300..900;1,300..900&display=swap');
+
+@media(max-width: 600px) {}
+
+:root {
+    --primary-color: #533A1F;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #FFF5EC;
+}
+
+.header-wrapper {
+    background-size: 100%;
+    height: 35rem;
+}
+
+#diagnosis-hw {
+    background-image: url("/Pics/Diagnosis.jpg");
+}
+
+p {
+    font-family: "Jost", Arial, sans-serif;
+    color: #ffffff;
+    font-size: 20px;
+}
+
+p,h1, h2,h3 {
+    font-family: "Jost", Arial, sans-serif;
+}
+
+.navigation {
+    display: flex;
+    font-family: "Jost", Arial, sans-serif;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+}
+
+@media(max-width: 600px) {}
+
+.navigation a {
+    text-decoration: none;
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: 400;
+    padding: 0 1.5rem;
+}
+
+.navLinks {
+    list-style: none;
+    display: flex;
+    align-items: center;
+}
+
+.navLinks li {
+    margin-left: 10px;
+}
+
+.hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 5rem;
+
+}
+
+.hero p {
+    font-size: 40px;
+    font-weight: 600;
+}
+
+.hero button {
+    background-color: var(--primary-color);
+    font-family: "Jost", Arial, sans-serif;
+    color: #ffffff;
+    font-size: 20px;
+    padding: 0.7rem 1.6rem;
+    margin-bottom: 1em;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+    background-color: #6a4f35;
+    transform: translateY(-2px);
+}
+
+.history {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 5rem;
+}
+
+.history p {
+    color: #000000;
+    font-size: 25px;
+    font-weight: 500;
+}
+
+.history-list {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    gap: 1rem;
+}
+
+.history li {
+    background-color: #f7e9e4;
+    font-family: "Jost", Arial, sans-serif;
+    padding: 20px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.probability {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #333;
+    margin-right: 15px;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+}
+
+.title {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.date {
+    font-size: 1rem;
+    color: #777;
+}
+
+/** ------------ Analysis Page --------------- **/
+
+#analysis-page a {
+    color: #000;
+}
+
+.analysis-sec {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.upload {
+    background-color: var(--primary-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 40rem;
+    color: #fff;
+    padding: 80px 40px;
+    border-radius: 12px;
+    margin-bottom: 40px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.upload label {
+    font-family: "Jost", Arial, sans-serif;
+    color: #ffffff;
+    font-size: 30px;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 4px;
+    transition: transform 0.1s ease;
+    cursor: pointer;
+}
+
+.upload label:hover {
+    color: rgb(224, 181, 141);
+    transform: scale(1.05);
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(450px, 1fr));
+    gap: 3rem;
+    width: 90%;
+    margin-bottom: 40px;
+}
+
+.form-card {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+.form-card h3 {
+    font-size: 1.3rem;
+    margin-bottom: 20px;
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.radio-group,
+.checkbox-group {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.radio-group label,
+.checkbox-group label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.radio-group input[type="radio"],
+.checkbox-group input[type="checkbox"] {
+    margin-right: 10px;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--text-light);
+    border-radius: 50%;
+    /* For radios */
+    outline: none;
+    transition: all 0.2s ease;
+    position: relative;
+    flex-shrink: 0;
+    /* Prevent shrinking */
+}
+
+.checkbox-group input[type="checkbox"] {
+    border-radius: 4px;
+    /* For checkboxes */
+}
+
+.radio-group input[type="radio"]:checked {
+    border-color: var(--primary-color);
+}
+
+.radio-group input[type="radio"]:checked::before {
+    content: '';
+    width: 10px;
+    height: 10px;
+    background-color: var(--primary-color);
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.checkbox-group input[type="checkbox"]:checked {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.checkbox-group input[type="checkbox"]:checked::before {
+    content: '\2713';
+    /* Checkmark */
+    color: #fff;
+    font-size: 14px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+
+.start-analysis-btn {
+    display: block;
+    width: fit-content;
+    margin: 0 auto 60px auto;
+    padding: 15px 40px;
+    background-color: var(--primary-color);
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.start-analysis-btn:hover {
+    background-color: #6a4f35;
+    transform: translateY(-2px);
+}
+
+/**  ------------ Details Page --------------- **/
+
+#details-hw {
+    background-color: #483D2E;
+}
+
+.hero-section {
+    background-color: var(--primary-color);
+    color: #fff;
+    text-align: center;
+    padding: 80px 20px;
+}
+
+.hero-section p {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.hero-section .percentage {
+    font-size: 4rem;
+    font-weight: 700;
+    color: var(--secondary-color);
+    /* Light peach for the number */
+}
+
+.hero-section h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-top: 10px;
+    margin-bottom: 25px;
+}
+
+.hero-section .description {
+    font-size: 1.2rem;
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.8;
+    color:#EADBCA;
+}
+
+.video-container {
+    display: flex;
+    justify-content: center;
+    padding: 4rem;
+    background-color: #ffffff;
+}
+
+.video {
+    width: 600px;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 20px;
+    transition: transform 0.3s ease;
+}
+
+.video:hover {
+    transform: scale(1.1);
+}
+
+
+
+/* Content Grid */
+.details-sec {
+    display: flex;
+    margin: 0 auto 60px auto;
+    padding: 3rem;
+    justify-content: space-around;
+    align-items: center;
+}
+
+
+.card h3 {
+    font-size: 1.6rem;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.card ul {
+    list-style: disc;
+    padding-left: 20px;
+    padding: 0;
+    margin: 0;
+    font-size: 1.1rem;
+    color: var(--text-dark);
+    line-height: 1.8;
+}
+
+.card ul li {
+    margin-bottom: 10px;
+    position: relative;
+    padding-left: 25px;
+}
+
+
+
+.card.symptoms-card {
+    grid-column: span 1;
+    /* Ensure it takes one column in a two-column layout */
+}
+
+.card.image-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 300px;
+}
+
+.card.image-card img {
+    width: 20rem;
+    height: auto;
+    display: block;
+    border-radius: 12px;
+    /* To match card border-radius */
+}
+
+.card.locations-card {
+    background-color: var(--card-bg);
+    grid-column: span 1;
+    /* Ensure it takes one column in a two-column layout */
+}
+
+
+
+/* Treatments Section */
+.treatments-section {
+    max-width: 1200px;
+    margin: 60px auto;
+    padding: 0 20px;
+    text-align: center;
+}
+
+.treatments-section h2 {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 40px;
+    font-weight: 700;
+}
+
+.treatment-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    justify-content: center;
+}
+
+.treatment-card {
+    background-color: var(--card-bg);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    /* Align content to left */
+}
+
+.treatment-card .image-placeholder {
+    width: 100%;
+    height: 200px;
+    background-color: #f0f0f0;
+    /* Light gray for image placeholder */
+    border-radius: 8px;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.treatment-card .image-placeholder img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    /* or 'cover' depending on desired crop */
+}
+
+.treatment-card h4 {
+    font-size: 1.3rem;
+    color: var(--text-dark);
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+.treatment-card p {
+    font-size: 0.95rem;
+    color: var(--text-light);
+    line-height: 1.5;
+}

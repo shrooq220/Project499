@@ -1,1 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../Style/Main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+</head>
+
+<body>
+
+    <div id="details-hw" class="header-wrapper">
+        <header>
+            <nav class="navigation">
+                <div class="logo">
+                    <a href="../Pages/order.php">DermaLens</a>
+                </div>
+
+                <ul class="navLinks">
+                    <li><a href="../Pages/history.php">History</a></li>
+                    <li><a href="../Pages/community.php">Community</a></li>
+                    <li><a href="../Pages/about.php">About</a></li>
+                    <li><a href="../Pages/account.php"><i class="fa-solid fa-circle-user"></i></a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <div class="hero-section">
+            <p>You Have a <span class="percentage">87%</span>
+            <br>Chance that you have
+            </p>
+            <h1>Angiokeratoma</h1>
+            <p class="description">A skin condition characterized by small, dark red to black bumps that may have a
+                rough, wart-like surface due to thickened skin</p>
+        </div>
+
+    </div>
+
+    <div class="video-container">
+        <video id="video" class="video" src="/Pics/video.mp4" autoplay muted loop></video>
+    </div>
+
+    <section class="details-sec">
+
+        <div class="card symptoms-card">
+            <h3>Symptoms</h3>
+            <ul>
+                <li>Small, dark red, purple, or black papules</li>
+                <li>Rough or scaly surface</li>
+                <li>Usually not itchy but can itch or bleed</li>
+                <li>May appear singly or in clusters</li>
+            </ul>
+        </div>
+
+        <div class="card image-card">
+            <img src="/Pics/images.jpg" alt="Body part icon">
+        </div>
+
+    </section>
+
+    <section class="details-sec">
+        <div class="card image-card">
+            <img src="/Pics/skin-disease-human-health-problem-600nw-2530985179.webp" alt="Body part icon">
+
+        </div>
+
+        <div class="card locations-card">
+            <h3>It can appears in:</h3>
+            <ul>
+                <li>Private areas</li>
+                <li>Inner thigh</li>
+                <li>Lower abdomen</li>
+            </ul>
+        </div>
+    </section>
+
+    <div class="treatments-section">
+        <h2>Treatments</h2>
+        <div class="treatment-grid">
+            <div class="treatment-card">
+                <div class="image-placeholder">
+                    <img src="https://m.media-amazon.com/images/I/71b2VzYwQFL._AC_UF894,1000_QL80_.jpg"
+                        alt="Emollients Moisturizer">
+                </div>
+                <h4>Emollients (Or Moisturizer)</h4>
+                <p>For inflammation/itching</p>
+            </div>
+            <div class="treatment-card">
+                <div class="image-placeholder">
+                    <img src="https://images.squarespace-cdn.com/content/v1/56c646b9b09f958893cc9a01/1655383561661-O623L1DIL2H93L130O7U/Rapamune.jpg"
+                        alt="Rapamycin product">
+                </div>
+                <h4>Rapamycin</h4>
+                <p>Description of lower product</p>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+<script>
+    const video = document.getElementById('video');
+    video.parentElement.addEventListener('mouseenter', () => video.setAttribute('controls', ''));
+    video.parentElement.addEventListener('mouseleave', () => video.removeAttribute('controls'));
+</script>
+
+</html>
