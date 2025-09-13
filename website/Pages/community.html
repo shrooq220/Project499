@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Community • DermaLens</title>
+  <link rel="stylesheet" href="../Style/Main.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" />
+</head>
+
+<body class="community">
+  <!-- Top Navigation -->
+  <header>
+    <nav class="navigation container">
+      <div class="logo"><a href="../Pages/order.php">DermaLens</a></div>
+      <ul class="navLinks">
+        <li><a href="../Pages/history.php">History</a></li>
+        <li><a class="active" href="../Pages/community.html">Community</a></li>
+        <li><a href="../Pages/about.php">About</a></li>
+        <li><a href="../Pages/account.php" aria-label="Account"><i class="fa-solid fa-circle-user"></i></a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Hero (image set in CSS) -->
+  <section class="comm-hero">
+    <div class="comm-hero-overlay">
+      <h1>Share Your Experience</h1>
+    </div>
+  </section>
+
+  <!-- Overlapping toolbar: Create | Search | Tabs -->
+  <section class="comm-toolbar overlap container">
+    <a class="btn-same" href="../Pages/create-post.html">
+      <i class="fa-solid fa-plus"></i> Create New Post
+    </a>
+
+    <div class="comm-search">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input class="input-same" id="searchInput" type="search" placeholder="Search" aria-label="Search posts" />
+    </div>
+
+    <div class="comm-tabs">
+      <button class="tab-pill tab-active" data-mode="trending">
+        <i class="fa-solid fa-fire-flame-curved"></i> Trending Stories
+      </button>
+      <button class="tab-pill" data-mode="recent">
+        <i class="fa-regular fa-clock"></i> Recent Posts
+      </button>
+    </div>
+  </section>
+
+  <!-- Feed (example posts) -->
+  <main class="comm-feed container" id="feed">
+    <article class="comm-card" data-tags="acneKeloidalis neck" data-reactions="12" data-date="2024-09-28" data-trending="true">
+      <div class="comm-card-head">
+        <img class="avatar" src="https://i.pravatar.cc/80?img=12" alt="">
+        <div>
+          <div class="meta"><strong>Layla</strong> • September 28, 2024</div>
+          <h3>Anyone else dealing with acne keloidalis on the neck?</h3>
+        </div>
+      </div>
+      <p>I’ve had raised bumps along my neckline for a while. They’re itchy sometimes and seem to get worse when I shave…</p>
+    </article>
+
+    <article class="comm-card" data-tags="melanoma" data-reactions="34" data-date="2024-09-28" data-trending="true">
+      <div class="comm-card-head">
+        <img class="avatar" src="https://i.pravatar.cc/80?img=32" alt="">
+        <div>
+          <div class="meta"><strong>Sae</strong> • September 28, 2024</div>
+          <h3>Melanoma diagnosis—processing it all</h3>
+        </div>
+      </div>
+      <p>Writing this helped me a lot over the past year. It didn’t look too alarming at first, but I noticed the edges were getting weird…</p>
+    </article>
+
+    <article class="comm-card" data-tags="ringworm thigh" data-reactions="9" data-date="2024-09-28" data-trending="false">
+      <div class="comm-card-head">
+        <img class="avatar" src="https://i.pravatar.cc/80?img=5" alt="">
+        <div>
+          <div class="meta"><strong>John</strong> • September 28, 2024</div>
+          <h3>What actually works with recurring ringworm?</h3>
+        </div>
+      </div>
+      <p>Second time in six months, same spot near my thigh. Antifungal cream helps, but it keeps coming back…</p>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">Dermalens. Copyright DERMALENS. All Rights Reserved</div>
+  </footer>
+
+  <!-- Tiny JS: tabs sorting + search filter -->
+  <script>
+    // Tabs active-state + sorting
+    document.querySelectorAll('.comm-tabs .tab-pill').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.comm-tabs .tab-pill').forEach(x => x.classList.remove('tab-active'));
+        btn.classList.add('tab-active');
+
+        const mode = btn.dataset.mode;
+        const cards = [...document.querySelectorAll('.comm-card')];
+        if (mode === 'trending') {
+          cards.sort((a,b) => (b.dataset.trending === 'true') - (a.dataset.trending === 'true')
+                              || (+b.dataset.reactions) - (+a.dataset.reactions));
+        } else {
+          cards.sort((a,b) => new Date(b.dataset.date) - new Date(a.dataset.date));
+        }
+        const feed = document.getElementById('feed');
+        cards.forEach(c => feed.appendChild(c));
+      });
+    });
+
+    // Search filter
+    const search = document.getElementById('searchInput');
+    search.addEventListener('input', () => {
+      const q = search.value.toLowerCase();
+      document.querySelectorAll('.comm-card').forEach(card => {
+        const text = card.innerText.toLowerCase();
+        card.style.display = text.includes(q) ? '' : 'none';
+      });
+    });
+  </script>
+</body>
+</html>

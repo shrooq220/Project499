@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Create a New Post - DermaLens</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"/>
+  <style>
+    /* ============ TOKENS ============ */
+    :root{
+      --primary-color:#533A1F;
+      --secondary-color:#E4C5AC;
+      --text-dark:#3f3223;
+      --text-light:#7a6b59;
+      --border-color:#e5d9cd;
+      --error-color:#b04b4b;
+      --button-color:#A67C52;
+      --button-hover:#8C6A45;
+      --ctrl-h:44px;
+      --ctrl-r:12px;
+      --ctrl-pad-x:16px;
+    }
+    *{ box-sizing:border-box; margin:0; padding:0; }
+    body{
+      font-family:"Jost",Arial,sans-serif;
+      background:#FFF5EC;
+      color:var(--text-dark);
+      line-height:1.6;
+    }
+
+    /* ============ NAV OVER HERO (transparent) ============ */
+    header{
+      position:absolute; top:0; left:0; right:0; z-index:20;
+      background:transparent !important;
+    }
+    .navigation{
+      display:flex; align-items:center; justify-content:space-between;
+      padding:1rem; background:transparent !important;
+    }
+    .navigation a{
+      color:#fff; text-decoration:none; font-size:20px; font-weight:400; padding:0 1.5rem;
+      text-shadow:0 1px 8px rgba(0,0,0,.35);
+    }
+    .navLinks{ list-style:none; display:flex; align-items:center; }
+    .navLinks li{ margin-left:10px; }
+
+    /* ============ HERO (image behind title) ============ */
+    .comm-hero{
+      position:relative;
+      background:
+        linear-gradient(rgba(0,0,0,.28),rgba(0,0,0,.18)),
+        url("/Pics/istockphoto-1311055822-612x612.jpg") center/cover no-repeat; /* adjust path if needed */
+      height:280px; color:#fff; display:flex; align-items:center; justify-content:center;
+    }
+    .comm-hero h1{ font-size:44px; font-weight:700; text-shadow:0 2px 14px rgba(0,0,0,.35); }
+
+    /* ============ CREATE POST ============ */
+    .create-wrap{ padding:40px 20px 60px; max-width:900px; margin:0 auto; }
+    .create-card{
+      background:#E4C5AC; border:1px solid #d9bba3; border-radius:14px;
+      box-shadow:0 10px 24px rgba(0,0,0,.06); padding:30px; margin-top:20px; overflow:hidden;
+    }
+    .btn-ghost-sm{
+      display:inline-flex; align-items:center; gap:6px; padding:8px 12px;
+      border:none; background:transparent; color:var(--text-dark);
+      font-weight:600; font-size:15px; text-decoration:none; border-radius:6px; transition:.2s;
+    }
+    .btn-ghost-sm:hover{ background:rgba(255,255,255,.3); text-decoration:none; }
+
+    .create-form{ display:flex; flex-direction:column; gap:20px; }
+    .field{ display:flex; flex-direction:column; gap:6px; }
+    .field label{ font-weight:600; color:var(--text-dark); font-size:15px; }
+    .req{ color:var(--error-color); }
+    .help{ color:var(--text-light); font-size:.85rem; margin-top:2px; }
+
+    .input-same, select.input-same, .textarea-same{
+      width:100%; border:1px solid var(--border-color); border-radius:var(--ctrl-r);
+      background:#fff; color:var(--text-dark); font-size:16px; outline:none; transition:.2s;
+      font-family:"Jost",Arial,sans-serif;
+    }
+    .input-same{ height:var(--ctrl-h); padding:0 var(--ctrl-pad-x); }
+    .textarea-same{ padding:12px 14px; min-height:160px; resize:vertical; }
+
+    select.input-same{
+      -webkit-appearance:none; appearance:none; padding:0 36px 0 var(--ctrl-pad-x);
+      background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 16 16' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='%237a6b59' d='M4 6l4 4 4-4z'/%3E%3C/svg%3E");
+      background-repeat:no-repeat; background-position:right 12px center; background-size:12px 12px;
+    }
+
+    .input-same:focus, .textarea-same:focus, select.input-same:focus{
+      border-color:var(--primary-color);
+      box-shadow:0 0 0 3px rgba(83,58,31,.2);
+    }
+
+    .switch-row{ display:flex; align-items:center; gap:10px; margin-top:10px; }
+    .switch-row input[type="checkbox"]{ width:18px; height:18px; accent-color:var(--primary-color); }
+
+    .actions{
+      display:flex; justify-content:flex-end; gap:12px; margin-top:24px; flex-wrap:wrap;
+    }
+    .btn-ghost, .btn-same{
+      display:inline-flex; align-items:center; justify-content:center;
+      padding:12px 24px; border-radius:var(--ctrl-r); font-weight:600; font-size:16px;
+      cursor:pointer; transition:.2s; text-decoration:none; border:1px solid var(--button-color);
+      background:var(--button-color); color:#fff;
+    }
+    .btn-ghost:hover, .btn-same:hover{ background:var(--button-hover); transform:translateY(-1px); }
+    .btn-ghost:focus, .btn-same:focus, .btn-ghost:active, .btn-same:active{ text-decoration:none; }
+
+    /* responsive */
+    @media (max-width:860px){
+      .create-card{ padding:20px; }
+      .actions{ flex-direction:column; }
+      .btn-ghost, .btn-same{ width:100%; }
+    }
+    @media (max-width:600px){
+      .comm-hero h1{ font-size:32px; }
+      .navigation{ flex-direction:column; gap:10px; }
+      .navLinks{ width:100%; justify-content:center; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Top bar -->
+  <header>
+    <nav class="navigation">
+      <div class="logo"><a href="../Pages/order.php">DermaLens</a></div>
+      <ul class="navLinks">
+        <li><a href="../Pages/history.php">History</a></li>
+        <li><a href="../Pages/community.html" class="active">Community</a></li>
+        <li><a href="../Pages/about.php">About</a></li>
+        <li><a href="../Pages/account.php"><i class="fa-solid fa-circle-user"></i></a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <section class="comm-hero">
+    <h1>Create a New Post</h1>
+  </section>
+
+  <!-- Form -->
+  <main class="create-wrap">
+    <div class="create-card">
+      <div class="create-header">
+        <a href="../Pages/community.html" class="btn-ghost-sm"><i class="fas fa-arrow-left"></i> Back to Community</a>
+      </div>
+
+      <form class="create-form" id="postForm">
+        <!-- Name field REMOVED -->
+
+        <div class="field">
+          <label for="tag">Tag (optional)</label>
+          <select id="tag" class="input-same">
+            <option value="">None</option>
+            <option value="melanoma">Melanoma</option>
+            <option value="lupus">Lupus</option>
+            <option value="ringworm">Ringworm</option>
+            <option value="angiokeratoma">Angiokeratoma</option>
+            <option value="acne_keloidalis">Acne Keloidalis</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="title">Title <span class="req">*</span></label>
+          <input type="text" id="title" class="input-same" placeholder="Write a clear, helpful title" required maxlength="130" />
+          <div class="help" id="titleHelp">0/130</div>
+        </div>
+
+        <div class="field">
+          <label for="post-body">Post Body <span class="req">*</span></label>
+          <textarea id="post-body" class="textarea-same" placeholder="Share your question or experience..." required></textarea>
+          <div class="help">Community advice is not medical diagnosis. Avoid personal identifiers.</div>
+        </div>
+
+        <div class="field">
+          <div class="switch-row">
+            <input type="checkbox" id="guidelines" required />
+            <label for="guidelines">I agree to the community guidelines <span class="req">*</span></label>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button type="button" class="btn-ghost" id="cancelBtn">Cancel</button>
+          <button type="submit" class="btn-same">Publish Post</button>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <script>
+    // Live title counter
+    const titleInput = document.getElementById('title');
+    const titleHelp = document.getElementById('titleHelp');
+    titleInput.addEventListener('input', () => {
+      const n = titleInput.value.length;
+      titleHelp.textContent = `${n}/130`;
+      titleHelp.style.color = n > 130 ? 'var(--error-color)' : 'var(--text-light)';
+    });
+
+    // Cancel behavior (go back to community)
+    document.getElementById('cancelBtn').addEventListener('click', () => {
+      window.location.href = '../Pages/community.html';
+    });
+
+    // Simple client validation
+    document.getElementById('postForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (titleInput.value.length > 130) {
+        alert('Title must be 130 characters or less');
+        return;
+      }
+      if (!document.getElementById('guidelines').checked) {
+        alert('You must agree to the community guidelines');
+        return;
+      }
+      alert('Your post has been submitted successfully!');
+    });
+  </script>
+</body>
+</html>
