@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../Style/Main.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+</head>
+
+<body>
+  <header>
+    <nav id="analysis-page" class="navigation">
+      <div class="logo">
+        <a href="../Pages/Diagnose.html">DermaLens</a>
+      </div>
+      <ul class="navLinks">
+        <li><a href="../Pages/Diagnose.html#history">History</a></li>
+        <li><a href="../Pages/community.html">Community</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="../Pages/profile.html"><i class="fa-solid fa-circle-user"></i></a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Upload the photo -->
+  <section class="analysis-sec">
+    <div class="upload">
+      <label for="imageUpload"> Upload Your Image </label>
+      <input type="file" id="imageUpload" accept="image/png, image/jpg, image/jpeg" style="display: none;">
+
+      <p>Or</p>
+
+      <label for="cameraCapture"> Take a Picture </label>
+      <input type="file" id="cameraCapture" accept="image/*" capture="user" style="display: none;">
+    </div>
+
+    <!-- Preview area -->
+    <div id="preview-container" style="margin-top:20px; text-align:center;">
+      <img id="previewImage" src="" alt="Preview" style="max-width:300px; display:none; border-radius:8px; border:1px solid #ccc;" />
+    </div>
+
+    <button class="start-analysis-btn" onclick="location.href='../Pages/Details.html'">Start Analysis</button>
+  </section>
+
+  <script>
+    const imageUpload = document.getElementById("imageUpload");
+    const cameraCapture = document.getElementById("cameraCapture");
+    const previewImage = document.getElementById("previewImage");
+
+    function showPreview(file) {
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = e => {
+          previewImage.src = e.target.result;
+          previewImage.style.display = "block";
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    imageUpload.addEventListener("change", () => {
+      const file = imageUpload.files[0];
+      showPreview(file);
+    });
+
+    cameraCapture.addEventListener("change", () => {
+      const file = cameraCapture.files[0];
+      showPreview(file);
+    });
+  </script>
+</body>
+</html>

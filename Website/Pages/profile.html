@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Profile</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet"/>
+
+  <style>
+    :root{
+      --brand-brown:#a18664;
+      --brand-brown-hover:#8b7358;
+      --page-peach:#fdf1e7;
+      --panel-bg:#fff;
+      --muted:#6b7280;
+      --soft-border:#e5e7eb;
+      --input-bg:#fafbfc;
+      --panel-w:720px;
+    }
+    body{ background:var(--page-peach); font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; }
+
+    .navbar{ padding:.75rem 1.25rem; }
+    .navbar .navbar-brand{ font-weight:800; }
+
+    .profile-card{
+      width:100%;
+      max-width:var(--panel-w);
+      background:var(--panel-bg);
+      border-radius:12px;
+      box-shadow:0 10px 24px rgba(0,0,0,.08);
+      padding:34px 36px;
+      margin:24px auto;
+    }
+
+    .form-label{ font-size:12px; color:#5f5f5f; margin-bottom:.35rem; }
+    .form-control{
+      background:var(--input-bg); border:1px solid var(--soft-border);
+      height:44px; font-size:.95rem; box-shadow:none !important;
+    }
+    .form-control:disabled{ background:#f7f7f7; color:#555; }
+    .input-group-text{ background:var(--input-bg); border:1px solid var(--soft-border); }
+
+    .btn-brown{
+      background:var(--brand-brown); border:none; color:#fff; height:44px; font-weight:600; border-radius:6px;
+    }
+    .btn-brown:hover{ background:var(--brand-brown-hover); }
+    .btn-outline-brown{
+      background:#fff; color:#3b3b3b; border:1px solid #cdb89f; height:44px; font-weight:600; border-radius:6px;
+    }
+    .btn-outline-brown:hover{ background:#faf7f3; border-color:#bda789; }
+
+    .avatar{
+      width:84px; height:84px; border-radius:50%;
+      background:#f3f3f3 center/cover no-repeat;
+      border:1px solid var(--soft-border);
+    }
+    .hint{ font-size:.8rem; color:#777; }
+
+    /* Strength UI (no layout shift) */
+    .strength-wrap{ min-height:72px; }
+    .progress{ height:10px; background:#f1f5f9; border-radius:6px; }
+    .progress-bar{ border-radius:6px; transition:width .25s ease; }
+    .strength-text{ font-size:.8rem; color:var(--muted); }
+    .criteria{
+      list-style:none; padding:0; margin:.25rem 0 0; min-height:120px; font-size:.9rem; color:var(--muted);
+    }
+    .criteria li{ display:flex; align-items:center; gap:.45rem; line-height:1.25rem; }
+    .criteria .ci{ flex:0 0 18px; width:18px; height:18px; display:inline-flex; align-items:center; justify-content:center; }
+    .criteria li .ci::before{
+      font-family:"bootstrap-icons"; content:"\f623"; color:#dc3545; font-size:1rem;
+    }
+    .criteria li.ok .ci::before{ content:"\f26a"; color:#198754; }
+
+    .view-only-badge{ font-size:.85rem; color:#666; }
+  </style>
+</head>
+<body>
+
+  <!-- Top bar -->
+  <nav class="navbar navbar-expand-lg bg-transparent">
+    <div class="container">
+      <a class="navbar-brand" href="Diagnose.html">DermaLens</a>
+      <div class="ms-auto d-none d-sm-flex align-items-center gap-3">
+        <a href="Diagnose.html#history" class="text-dark text-decoration-none">History</a>
+        <a href="community.html" class="text-dark text-decoration-none">Community</a>
+        <a href="#" class="text-dark text-decoration-none">About</a>
+        <a href="profile.html" class="text-dark"><i class="bi bi-person-circle fs-4"></i></a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="profile-card">
+    <div class="d-flex justify-content-between align-items-center mb-2">
+      <div>
+        <h2 class="m-0 fw-bold">Profile</h2>
+        <div id="modeBadge" class="view-only-badge">View mode</div>
+      </div>
+      <div>
+        <button id="editBtn" class="btn btn-brown">Edit</button>
+        <button id="saveBtn" class="btn btn-brown d-none">Save</button>
+        <button id="cancelBtn" class="btn btn-outline-brown d-none">Cancel</button>
+      </div>
+    </div>
+
+    <form id="profileForm" class="row g-3 needs-validation" novalidate>
+      <!-- Avatar -->
+      <div class="col-12 d-flex align-items-center gap-3">
+        <div id="avatarPreview" class="avatar" aria-label="Profile photo preview"></div>
+        <div class="flex-grow-1">
+          <label class="form-label">Profile Photo</label>
+          <input class="form-control" type="file" id="avatar" name="avatar" accept="image/png,image/jpeg,image/webp" disabled>
+          <div class="hint mt-1">JPG/PNG/WebP • ~2MB max recommended</div>
+        </div>
+      </div>
+
+      <!-- Names -->
+      <div class="col-md-6">
+        <label class="form-label">First Name <span class="text-danger">*</span></label>
+        <input type="text" class="form-control" name="firstName" placeholder="First name" required disabled>
+        <div class="invalid-feedback">Please enter your first name.</div>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Last Name (optional)</label>
+        <input type="text" class="form-control" name="lastName" placeholder="Last name" disabled>
+      </div>
+
+      <!-- Age + Gender -->
+      <div class="col-md-3">
+        <label class="form-label">Age <span class="text-danger">*</span></label>
+        <input type="number" class="form-control" name="age" min="1" max="120" required disabled>
+        <div class="invalid-feedback">Please provide a valid age.</div>
+      </div>
+      <div class="col-md-3">
+        <label class="form-label">Gender (optional)</label>
+        <select class="form-control" name="gender" disabled>
+          <option value="" selected>Select</option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+        </select>
+      </div>
+
+      <!-- Email + Phone -->
+      <div class="col-md-6">
+        <label class="form-label">Email <span class="text-danger">*</span></label>
+        <input type="email" class="form-control" name="email" placeholder="you@example.com" required disabled>
+        <div class="invalid-feedback">Please provide a valid email.</div>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Contact Number <span class="text-danger">*</span></label>
+        <input type="tel" class="form-control" name="phone" placeholder="+9665XXXXXXXX"
+               pattern="^\+?[0-9\s\-]{8,15}$" required disabled>
+        <div class="invalid-feedback">Please enter a valid phone number.</div>
+      </div>
+
+      <!-- Password + Confirm (hidden in view mode; shown in edit mode) -->
+      <div id="passwordBlock" class="col-12 d-none">
+        <div class="row g-3 align-items-end">
+          <div class="col-md-6">
+            <label class="form-label">Password <span class="text-danger">*</span></label>
+            <div class="input-group">
+              <input type="password" class="form-control" id="password" name="password"
+                     placeholder="Enter password" minlength="8">
+              <button class="input-group-text" type="button" id="togglePw"><i class="bi bi-eye"></i></button>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Confirm Password <span class="text-danger">*</span></label>
+            <input type="password" class="form-control" id="confirmPassword" name="confirmPassword"
+                   placeholder="Confirm password">
+            <div class="invalid-feedback">Passwords must match.</div>
+          </div>
+        </div>
+
+        <div class="hint mt-2">Use at least 8 characters, with letters, numbers, and symbols.</div>
+
+        <!-- Strength & checklist -->
+        <div class="strength-wrap mt-2">
+          <div class="progress">
+            <div id="pwBar" class="progress-bar" style="width:0%"></div>
+          </div>
+          <div id="pwStrengthText" class="strength-text mt-1">Strength: —</div>
+        </div>
+
+        <ul class="criteria" id="pwCriteria">
+          <li id="cLen"><span class="ci"></span><span>At least 8 characters</span></li>
+          <li id="cLower"><span class="ci"></span><span>Lowercase letter</span></li>
+          <li id="cUpper"><span class="ci"></span><span>Uppercase letter</span></li>
+          <li id="cDigit"><span class="ci"></span><span>Number</span></li>
+          <li id="cSymbol"><span class="ci"></span><span>Symbol (!@#$…)</span></li>
+        </ul>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    const form = document.getElementById('profileForm');
+    const modeBadge = document.getElementById('modeBadge');
+    const editBtn = document.getElementById('editBtn');
+    const saveBtn = document.getElementById('saveBtn');
+    const cancelBtn = document.getElementById('cancelBtn');
+    const passwordBlock = document.getElementById('passwordBlock');
+    const togglePw = document.getElementById('togglePw');
+
+    const avatarInput = document.getElementById('avatar');
+    const avatarPreview = document.getElementById('avatarPreview');
+
+    // Password UI refs
+    const pw = document.getElementById('password');
+    const cpw = document.getElementById('confirmPassword');
+    const pwBar = document.getElementById('pwBar');
+    const pwStrengthText = document.getElementById('pwStrengthText');
+    const cLen = document.getElementById('cLen');
+    const cLower = document.getElementById('cLower');
+    const cUpper = document.getElementById('cUpper');
+    const cDigit = document.getElementById('cDigit');
+    const cSymbol = document.getElementById('cSymbol');
+
+    // Helpers
+    function setDisabled(disabled){
+      form.querySelectorAll('input, select, textarea').forEach(el=>{
+        // Keep password inputs controlled by block visibility, but still enable/disable
+        el.disabled = disabled;
+      });
+    }
+    function setViewMode(){
+      setDisabled(true);
+      passwordBlock.classList.add('d-none');
+      editBtn.classList.remove('d-none');
+      saveBtn.classList.add('d-none');
+      cancelBtn.classList.add('d-none');
+      modeBadge.textContent = 'View mode';
+    }
+    function setEditMode(){
+      setDisabled(false);
+      // Password fields are optional unless user wants to change password
+      passwordBlock.classList.remove('d-none');
+      editBtn.classList.add('d-none');
+      saveBtn.classList.remove('d-none');
+      cancelBtn.classList.remove('d-none');
+      modeBadge.textContent = 'Edit mode';
+    }
+
+    // Load profile from localStorage
+    function loadProfile(){
+      const p = JSON.parse(localStorage.getItem('profile') || '{}');
+      form.firstName.value = p.firstName || (p.fullName ? p.fullName.split(' ')[0] : '') || '';
+      form.lastName.value = p.lastName || '';
+      form.age.value = p.age || '';
+      form.gender.value = p.gender || '';
+      form.email.value = p.email || '';
+      form.phone.value = p.phone || '';
+      // Avatar (if you stored a dataURL under profile.avatar)
+      if (p.avatar) avatarPreview.style.backgroundImage = `url('${p.avatar}')`;
+    }
+
+    // Save profile to localStorage (excluding password)
+    function saveProfile(){
+      const existing = JSON.parse(localStorage.getItem('profile') || '{}');
+      const updated = {
+        ...existing,
+        firstName: form.firstName.value.trim(),
+        lastName: form.lastName.value.trim(),
+        age: form.age.value.trim(),
+        gender: form.gender.value,
+        email: form.email.value.trim(),
+        phone: form.phone.value.trim()
+      };
+      localStorage.setItem('profile', JSON.stringify(updated));
+    }
+
+    // Avatar preview + store in profile on save
+    avatarInput.addEventListener('change', function(){
+      const file = this.files && this.files[0];
+      if (!file){ avatarPreview.style.backgroundImage=''; return; }
+      const reader = new FileReader();
+      reader.onload = e => { avatarPreview.style.backgroundImage = `url('${e.target.result}')`; };
+      reader.readAsDataURL(file);
+    });
+
+    // Toggle password visibility
+    if (togglePw) {
+      togglePw.addEventListener('click', ()=>{
+        if (!pw) return;
+        const show = pw.type === 'password';
+        pw.type = show ? 'text' : 'password';
+        togglePw.innerHTML = show ? '<i class="bi bi-eye-slash"></i>' : '<i class="bi bi-eye"></i>';
+      });
+    }
+
+    // Password strength + checklist (no layout shift)
+    function setCriterion(el, ok){ el && el.classList.toggle('ok', ok); }
+    function strengthInfo(val){
+      const hasLen   = val.length >= 8;
+      const hasLower = /[a-z]/.test(val);
+      const hasUpper = /[A-Z]/.test(val);
+      const hasDigit = /\d/.test(val);
+      const hasSym   = /[^A-Za-z0-9]/.test(val);
+
+      setCriterion(cLen,   hasLen);
+      setCriterion(cLower, hasLower);
+      setCriterion(cUpper, hasUpper);
+      setCriterion(cDigit, hasDigit);
+      setCriterion(cSymbol,hasSym);
+
+      const checks = [hasLen, hasLower, hasUpper, hasDigit, hasSym];
+      const score = checks.filter(Boolean).length;
+      const pct = [0,25,50,70,85,100][score];
+
+      let label='Very weak', cls='bg-danger';
+      if(score===2){ label='Weak';  cls='bg-danger'; }
+      if(score===3){ label='Fair';  cls='bg-warning'; }
+      if(score===4){ label='Good';  cls='bg-info'; }
+      if(score===5){ label='Strong';cls='bg-success'; }
+
+      pwBar.className = 'progress-bar ' + cls;
+      pwBar.style.width = pct + '%';
+      pwStrengthText.textContent = 'Strength: ' + label;
+
+      const typesCount = [hasLower,hasUpper,hasDigit,hasSym].filter(Boolean).length;
+      return hasLen && typesCount >= 2;
+    }
+
+    function validatePwMatch(){
+      if (!pw || !cpw) return true;
+      if (!pw.value && !cpw.value) { cpw.setCustomValidity(''); return true; } // password change optional
+      const ok = pw.value === cpw.value;
+      cpw.setCustomValidity(ok ? '' : 'Passwords do not match');
+      return ok;
+    }
+
+    pw && pw.addEventListener('input', ()=>{
+      const ok = strengthInfo(pw.value);
+      // If user is changing password, enforce strength
+      if (pw.value) pw.setCustomValidity(ok ? '' : 'Please improve password strength.');
+      else pw.setCustomValidity('');
+      validatePwMatch();
+    });
+    cpw && cpw.addEventListener('input', validatePwMatch);
+
+    // Buttons
+    editBtn.addEventListener('click', setEditMode);
+
+    cancelBtn.addEventListener('click', ()=>{
+      loadProfile();
+      // Clear password fields when cancelling
+      if (pw) pw.value = '';
+      if (cpw) cpw.value = '';
+      pwBar && (pwBar.style.width = '0%');
+      pwStrengthText && (pwStrengthText.textContent = 'Strength: —');
+      [cLen,cLower,cUpper,cDigit,cSymbol].forEach(el=> el && el.classList.remove('ok'));
+      setViewMode();
+    });
+
+    saveBtn.addEventListener('click', ()=>{
+      // Validate form requireds
+      if (!form.checkValidity()){ form.classList.add('was-validated'); return; }
+      // If user typed a new password, enforce rules & match
+      if (pw && pw.value){
+        const strongEnough = strengthInfo(pw.value);
+        if (!strongEnough){ pw.reportValidity(); return; }
+        if (!validatePwMatch()){ cpw.reportValidity(); return; }
+        // Here you would call your backend to actually change password
+        // For demo, we don't store passwords in localStorage.
+      }
+      // Save non-sensitive profile fields
+      saveProfile();
+
+      // If user uploaded a new avatar in this session, persist it
+      const bgImg = avatarPreview.style.backgroundImage;
+      if (bgImg && bgImg.startsWith('url(')){
+        const url = bgImg.slice(5,-2); // strip url(" ... ")
+        const p = JSON.parse(localStorage.getItem('profile') || '{}');
+        p.avatar = url;
+        localStorage.setItem('profile', JSON.stringify(p));
+      }
+
+      alert('Profile saved!');
+      // Clear password fields after save
+      if (pw) pw.value = '';
+      if (cpw) cpw.value = '';
+      setViewMode();
+    });
+
+    // Init
+    loadProfile();
+    setViewMode();
+  </script>
+</body>
+</html>

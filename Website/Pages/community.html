@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Community • DermaLens</title>
+  <link rel="stylesheet" href="../Style/Main.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" />
+  <style>
+    /* Minimal chip style */
+    .tag-picker { display:flex; flex-wrap:wrap; gap:.5rem; align-items:center; }
+    .tag-chip {
+      display:inline-flex; align-items:center; gap:.4rem;
+      padding:.35rem .6rem; border:1px solid #d8d8d8; border-radius:999px;
+      background:#fff; color:#333; font-size:.9rem; cursor:pointer; user-select:none;
+      transition:background .15s ease, border-color .15s ease;
+    }
+    .tag-chip i { font-size:.85rem; opacity:.7; }
+    .tag-chip.active { background:#f2e9df; border-color:#cdb89f; }
+    .picker-label { font-size:.9rem; color:#666; margin-right:.5rem; white-space:nowrap; }
+    @media (max-width: 640px){ .comm-toolbar { row-gap:.75rem; } }
+  </style>
+</head>
+
+<body class="community">
+  <!-- Top Navigation -->
+  <header>
+    <nav class="navigation container">
+      <div class="logo"><a href="../Pages/Diagnose.html">DermaLens</a></div>
+      <ul class="navLinks">
+        <li><a href="../Pages/Diagnose.html#history">History</a></li>
+        <li><a class="active" href="../Pages/community.html">Community</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="../Pages/profile.html" aria-label="Account"><i class="fa-solid fa-circle-user"></i></a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <section class="comm-hero">
+    <div class="comm-hero-overlay">
+      <h1>Share Your Experience</h1>
+    </div>
+  </section>
+
+  <!-- Toolbar -->
+  <section class="comm-toolbar overlap container">
+    <a class="btn-same" href="../Pages/create-post.html">
+      <i class="fa-solid fa-plus"></i> Create New Post
+    </a>
+
+    <!-- Fixed Tag picker -->
+    <div class="tag-picker" id="tagPicker" aria-label="Filter by disease">
+      <span class="picker-label">Filter by:</span>
+      <!-- Chips injected by JS -->
+    </div>
+
+    <div class="comm-tabs">
+      <button class="tab-pill tab-active" data-mode="trending">
+        <i class="fa-solid fa-fire-flame-curved"></i> Trending Stories
+      </button>
+      <button class="tab-pill" data-mode="recent">
+        <i class="fa-regular fa-clock"></i> Recent Posts
+      </button>
+    </div>
+  </section>
+
+  <!-- Feed -->
+  <main class="comm-feed container" id="feed">
+    <article class="comm-card" data-tags="acne keloidalis neck" data-reactions="12" data-date="2024-09-28" data-trending="true">
+      <div class="comm-card-head">
+        <img class="avatar" src="https://i.pravatar.cc/80?img=12" alt="">
+        <div>
+          <div class="meta"><strong>Layla</strong> • September 28, 2024</div>
+          <h3>Anyone else dealing with acne keloidalis on the neck?</h3>
+        </div>
+      </div>
+      <p>I’ve had raised bumps along my neckline for a while. They’re itchy sometimes and seem to get worse when I shave…</p>
+    </article>
+
+    <article class="comm-card" data-tags="melanoma" data-reactions="34" data-date="2024-09-28" data-trending="true">
+      <div class="comm-card-head">
+        <img class="avatar" src="https://i.pravatar.cc/80?img=32" alt="">
+        <div>
+          <div class="meta"><strong>Sae</strong> • September 28, 2024</div>
+          <h3>Melanoma diagnosis—processing it all</h3>
+        </div>
+      </div>
+      <p>Writing this helped me a lot over the past year. It didn’t look too alarming at first, but I noticed the edges were getting weird…</p>
+    </article>
+
+    <article class="comm-card" data-tags="ringworm thigh" data-reactions="9" data-date="2024-09-28" data-trending="false">
+      <div class="comm-card-head">
+        <img class="avatar" src="https://i.pravatar.cc/80?img=5" alt="">
+        <div>
+          <div class="meta"><strong>John</strong> • September 28, 2024</div>
+          <h3>What actually works with recurring ringworm?</h3>
+        </div>
+      </div>
+      <p>Second time in six months, same spot near my thigh. Antifungal cream helps, but it keeps coming back…</p>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">Dermalens. Copyright DERMALENS. All Rights Reserved</div>
+  </footer>
+
+  <!-- Tabs + Tag Picker -->
+  <script>
+    // -------- Tabs active-state + sorting --------
+    document.querySelectorAll('.comm-tabs .tab-pill').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.comm-tabs .tab-pill').forEach(x => x.classList.remove('tab-active'));
+        btn.classList.add('tab-active');
+
+        const mode = btn.dataset.mode;
+        const cards = [...document.querySelectorAll('.comm-card')];
+        if (mode === 'trending') {
+          cards.sort((a,b) => (b.dataset.trending === 'true') - (a.dataset.trending === 'true')
+                              || (+b.dataset.reactions) - (+a.dataset.reactions));
+        } else {
+          cards.sort((a,b) => new Date(b.dataset.date) - new Date(a.dataset.date));
+        }
+        const feed = document.getElementById('feed');
+        cards.forEach(c => feed.appendChild(c));
+      });
+    });
+
+    // -------- Fixed Tag Picker --------
+    const diseases = ["melanoma", "lupus", "ringworm", "eczema", "acne"];
+    const feedCards = [...document.querySelectorAll('.comm-card')];
+    const picker = document.getElementById('tagPicker');
+    const selected = new Set();
+
+    // Render fixed chips
+    function renderChips() {
+      diseases.forEach(tag => {
+        const chip = document.createElement('button');
+        chip.type = 'button';
+        chip.className = 'tag-chip';
+        chip.dataset.tag = tag;
+        chip.innerHTML = `<i class="fa-solid fa-tag"></i> ${tag.charAt(0).toUpperCase()+tag.slice(1)}`;
+        chip.addEventListener('click', () => {
+          if (selected.has(tag)) selected.delete(tag); else selected.add(tag);
+          chip.classList.toggle('active');
+          applyFilter();
+        });
+        picker.appendChild(chip);
+      });
+    }
+
+    function applyFilter() {
+      if (selected.size === 0) {
+        feedCards.forEach(c => c.style.display = '');
+        return;
+      }
+      feedCards.forEach(card => {
+        const tags = (card.dataset.tags || '').toLowerCase().split(/\s+/);
+        const show = [...selected].some(t => tags.includes(t));
+        card.style.display = show ? '' : 'none';
+      });
+    }
+
+    renderChips();
+  </script>
+</body>
+</html>

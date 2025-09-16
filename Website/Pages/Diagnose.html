@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../Style/Main.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+  <title>DermaLens • Diagnose</title>
+</head>
+
+<body>
+  <div id="diagnosis-hw" class="header-wrapper">
+    <header>
+      <nav class="navigation">
+        <div class="logo">
+          <a href="../Pages/Diagnose.html">DermaLens</a>
+        </div>
+        <ul class="navLinks">
+          <li><a href="../Pages/Diagnose.html#history">History</a></li>
+          <li><a href="../Pages/community.html">Community</a></li>
+          <li><a href="#">About</a></li>
+          <li><a href="../Pages/profile.html"><i class="fa-solid fa-circle-user"></i></a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <p>Start Diagnosis</p>
+      <button class="photo-btn" id="startDiagnosisBtn">Upload Photo</button>
+    </section>
+  </div>
+
+  <script>
+    document.getElementById("startDiagnosisBtn").addEventListener("click", () => {
+      const isLoggedIn = localStorage.getItem("loggedIn") === "true";
+      if (isLoggedIn) {
+        window.location.href = "../Pages/Analysis.html";
+      } else {
+        alert("You must log in before starting a diagnosis.");
+        window.location.href = "../Pages/login.html";
+      }
+    });
+  </script>
+</body>
+</html>
