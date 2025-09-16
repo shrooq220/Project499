@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../Style/Main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+</head>
+
+<body>
+
+    <div id="details-hw" class="header-wrapper">
+        <header>
+            <nav class="navigation">
+                <div class="logo">
+                    <a href="../Pages/Diagnose.html">DermaLens</a>
+                </div>
+
+                <ul class="navLinks">
+                    <li><a href="../Pages/history.php">History</a></li>
+                    <li><a href="../Pages/community.html">Community</a></li>
+                    <li><a href="../Pages/about.php">About</a></li>
+                    <li><a href="../Pages/profile.html class="fa-solid fa-circle-user"></i></a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <div class="hero-section">
+            <p>You Have a <span class="percentage">87%</span>
+            <br>Chance that you have
+            </p>
+            <h1>Ringworm</h1>
+            <p class="description">A common fungal infection that affects the skin, creating ring-shaped, red, and scaly patches. Despite its name, it's not caused by worms but by fungi and is highly contagious</p>
+        </div>
+
+    </div>
+
+    <div class="video-container">
+        <video id="video" class="video" src="/Pics/video.mp4" autoplay muted loop></video>
+    </div>
+
+    <section class="details-sec">
+
+        <div class="card symptoms-card">
+            <h3>Symptoms</h3>
+            <ul>
+                <li>Ring-shaped, red, scaly patches</li>
+                <li>Clear or healthy skin in the center</li>
+                <li>Itchy, burning sensation</li>
+                <li>Raised, bumpy border around patches</li>
+                <li>Hair loss in affected areas</li>
+                <li>Patches may overlap and spread</li>
+            </ul>
+        </div>
+
+        <div class="card image-card">
+            <img src="/Pics/images.jpg" alt="Body part icon">
+        </div>
+
+    </section>
+
+    <section class="details-sec">
+        <div class="card image-card">
+            <img src="/Pics/skin-disease-human-health-problem-600nw-2530985179.webp" alt="Body part icon">
+
+        </div>
+
+        <div class="card locations-card">
+            <h3>It can appears in:</h3>
+            <ul>
+                <li>Scalp and beard area</li>
+                <li>Arms and legs</li>
+                <li>Torso and back</li>
+                <li>Groin area</li>
+                <li>Feet (athlete's foot)</li>
+                <li>Between fingers and toes</li>
+            </ul>
+        </div>
+    </section>
+
+</body>
+
+<script>
+    const video = document.getElementById('video');
+    video.parentElement.addEventListener('mouseenter', () => video.setAttribute('controls', ''));
+    video.parentElement.addEventListener('mouseleave', () => video.removeAttribute('controls'));
+</script>
+
+</html>
