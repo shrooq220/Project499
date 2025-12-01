@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='Main.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+    <title>DermaLens • Result</title>
+
+    <style>
+        :root {
+            --brand-brown: #a18664;
+        }
+
+        /* تنسيقات موحدة لتمييز الصفحة النشطة (للتناسق) */
+        .navigation .navLinks li a:hover,
+        .navigation .navLinks li.active-page>a,
+        .navigation .navLinks li.profile-menu.active-page>a {
+            color: var(--brand-brown);
+            font-weight: 600;
+        }
+
+        /* ✅ تنسيقات قائمة الملف الشخصي الموحدة */
+        .profile-menu .dropdown {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 100%;
+            background-color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            padding: 10px 0;
+            min-width: 180px;
+            z-index: 10;
+        }
+
+        .profile-menu.active .dropdown {
+            display: block;
+        }
+
+        /* تنسيقات أخرى للصفحة */
+        .site-footer {
+            /* لتثبيت موضعه بالنسبة لنافذة العرض */
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="details-hw" class="header-wrapper illness-header">
+        <header>
+            <nav class="navigation container">
+                <div class="logo">
+                    <a href="{{ url_for('diagnosis') }}">DermaLens</a>
+                </div>
+                <ul class="navLinks">
+                    <li><a href="{{ url_for('history') }}" data-key="history">History</a></li>
+                    <li><a href="{{ url_for('community') }}" data-key="community">Community</a></li>
+                    <li><a href="{{ url_for('about') }}" data-key="about">About</a></li>
+
+                    <li class="profile-menu" id="profile-toggle">
+                        <a href="#" title="Account Menu" id="profileDropdownToggle"><i class="fa-solid fa-circle-user"></i></a>
+
+                        <div class="dropdown">
+                            <a href="#" id="profileLink" data-key="profile">Profile</a>
+
+                            <div class="separator"></div>
+
+                            <div class="lang-options">
+                                <a onclick="switchLang('ar')">عربي</a>
+                                <a onclick="switchLang('en')">English</a>
+                            </div>
+
+                            <div class="separator" id="authSeparator"></div>
+
+                            <a href="#" data-key="auth" id="authLink">Log Out</a>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+
+        <div class="illness-hero">
+            <p data-key="youhave">You Have a <span class="percentage">{{ confidence }}%</span>
+                <br>Chance that you have
+            </p>
+
+            <h1 id="diseaseNameDisplay">{{ pred_name }}</h1>
+
+            <p class="description" data-key="description">A common skin condition that occurs when hair follicles become clogged with oil and dead skin cells. It mainly affects teenagers but can occur at any age, causing various types of bumps and blemishes</p>
+        </div>
+
+        <div class="video-container">
+            <video id="video" class="video"
+                src="{{ url_for('static', filename='Pics/video.mp4') }}"
+                autoplay muted loop>
+            </video>
+        </div>
+
+        <section class="details-sec">
+
+            <div class="illness-card symptoms-card">
+                <h3 data-key="Symptoms"><i class="fas fa-circle illness-icon"></i>Symptoms</h3>
+                <ul class="symptoms-list">
+                    <li class="symptom-item" data-key="s1">Blackheads and whiteheads</li>
+                    <li class="symptom-item" data-key="s2">Small red, tender bumps (papules)</li>
+                    <li class="symptom-item" data-key="s3">Pus-filled bumps (pustules)</li>
+                    <li class="symptom-item" data-key="s4">Large, painful lumps (nodules)</li>
+                    <li class="symptom-item" data-key="s5">Deep, pus-filled lumps (cysts)</li>
+                    <li class="symptom-item" data-key="s6">Oily skin and enlarged pores</li>
+                </ul>
+            </div>
+
+            <div class="illness-card image-card">
+                <img src="{{ url_for('static', filename='Pics/images.jpg') }}" alt="Acne body locations">
+                <div class="image-overlay">
+                    <p data-key="picalt1">Areas where acne commonly occurs</p>
+                </div>
+            </div>
+
+        </section>
+
+        <section class="details-sec">
+            <div class="illness-card image-card">
+                <img src="{{ url_for('static', filename='Pics/skin-disease-human-health-problem-600nw-2530985179.webp') }}" alt="Acne symptoms">
+                <div class="image-overlay">
+                    <p data-key="picalt2">Different types of acne lesions</p>
+                </div>
+            </div>
+
+            <div class="illness-card locations-card">
+                <h3 data-key="appears"><i class="fas fa-map-marker-alt illness-icon"></i>It can appears in:</h3>
+                <ul class="locations-list">
+                    <li class="location-item" data-key="a1">Face and forehead</li>
+                    <li class="location-item" data-key="a2">Chest and upper back</li>
+                    <li class="location-item" data-key="a3">Shoulders</li>
+                    <li class="location-item" data-key="a4">Neck and jawline</li>
+                    <li class="location-item" data-key="a5">Upper arms</li>
+                </ul>
+            </div>
+        </section>
+
+        <footer class="site-footer">
+            <div class="container">Dermalens. Copyright DERMALENS. All Rights Reserved</div>
+        </footer>
+
+</body>
+
+<script>
+    // ✅ دالة تسجيل الخروج الموحدة والموجهة لصفحة تسجيل الدخول
+    function logout() {
+        localStorage.removeItem('token');
+        localStorage.removeItem('loggedIn');
+        const lang = localStorage.getItem('lang') || 'en';
+        alert(lang === 'ar' ? 'تم تسجيل الخروج بنجاح.' : 'Logged out successfully.');
+        window.location.href = "{{ url_for('login') }}"; // التوجيه إلى صفحة تسجيل الدخول
+    }
+
+    const video = document.getElementById('video');
+    video.parentElement.addEventListener('mouseenter', () => video.setAttribute('controls', ''));
+    video.parentElement.addEventListener('mouseleave', () => video.removeAttribute('controls'));
+
+
+    /* Change the language */
+    const translations = {
+        ar: {
+            history: "السجل",
+            community: "المجتمع",
+            about: "عنا",
+            profile: "الملف الشخصي", 
+            logout: "تسجيل خروج", 
+            // 🌟 استخدام Placeholder: {percentage}
+            youhave: "لديك احتمال بنسبة {percentage}<br>للإصابة بـ",
+            diesase: "حب الشباب",
+            description: "حالة جلدية شائعة تحدث عندما تنسد بصيلات الشعر بالزيوت وخلايا الجلد الميتة. تصيب بشكل رئيسي المراهقين لكنها قد تحدث في أي عمر، مسببة أنواعًا مختلفة من البثور والعيوب الجلدية.",
+            Symptoms: "الأعراض",
+            s1: "الرؤوس السوداء والبيضاء",
+            s2: "حبوب صغيرة حمراء وناعمة (حطاطات)",
+            s3: "حبوب مليئة بالصديد (بثرات)",
+            s4: "عقيدات كبيرة ومؤلمة (عقد)",
+            s5: "كيسات عميقة مليئة بالصديد (أكياس)",
+            s6: "بشرة دهنية ومسامات واسعة",
+            picalt1: "المناطق التي يظهر فيها حب الشباب عادةً",
+            picalt2: "أنواع مختلفة من آفات حب الشباب",
+            appears: "قد تظهر في:",
+            a1: "الوجه والجبهة",
+            a2: "الصدر وأعلى الظهر",
+            a3: "الكتفان",
+            a4: "الرقبة والفك",
+            a5: "الذراعان العلويتان",
+            treatments: "العلاج"
+        },
+        en: {
+            history: "History",
+            community: "Community",
+            about: "About",
+            profile: "Profile",
+            logout: "Log Out", 
+            //  استخدام Placeholder: {percentage}
+            youhave: "You Have a {percentage}<br>Chance that you have",
+            diesase: "Acne",
+            description: "A common skin condition that occurs when hair follicles become clogged with oil and dead skin cells. It mainly affects teenagers but can occur at any age, causing various types of bumps and blemishes",
+            Symptoms: "Symptoms",
+            s1: "Blackheads and whiteheads",
+            s2: "Small red, tender bumps (papules)",
+            s3: "Pus-filled bumps (pustules)",
+            s4: "Large, painful lumps (nodules)",
+            s5: "Deep, pus-filled lumps (cysts)",
+            s6: "Oily skin and enlarged pores",
+            picalt1: "Areas where acne commonly occurs",
+            picalt2: "Different types of acne lesions",
+            appears: "It can appears in:",
+            a1: "Face and forehead",
+            a2: "Chest and upper back",
+            a3: "Shoulders",
+            a4: "Neck and jawline",
+            a5: "Upper arms",
+            treatments: "Treatments"
+        }
+    };
+
+    // دالة لتحديث رابط المصادقة (تسجيل دخول/تسجيل خروج)
+    function updateAuthLink(lang) {
+        const authLink = document.getElementById('authLink');
+        const isLoggedIn = localStorage.getItem('loggedIn') === 'true' && localStorage.getItem('token');
+
+        if (!authLink) return;
+
+        if (isLoggedIn) {
+            authLink.textContent = translations[lang]['logout'];
+            authLink.setAttribute('onclick', 'logout()');
+            authLink.removeAttribute('href');
+        } else {
+            authLink.textContent = translations[lang]['login'];
+            authLink.setAttribute('href', '{{ url_for('login') }}');
+            authLink.removeAttribute('onclick');
+        }
+    }
+
+
+    function switchLang(lang) {
+        document.documentElement.lang = lang;
+        document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
+
+        //  1. استخلاص النسبة المئوية الحقيقية التي تم إدخالها من Flask
+        const percentageElement = document.querySelector('.percentage');
+        // نحصل على القيمة (مثلاً 55%) ونحذف علامة %
+        const currentPercentage = percentageElement ? percentageElement.textContent : "87%";
+
+        document.querySelectorAll("[data-key]").forEach(el => {
+            const icon = el.querySelector('i');
+            const text = translations[lang][el.dataset.key];
+
+            if (el.dataset.key === 'youhave' && text) {
+                //  2. إدخال النسبة المئوية الحقيقية في نص الترجمة
+                // النص المترجم الآن يحتوي على {percentage}
+                const translatedText = text.replace('{percentage}', `<span class="percentage">${currentPercentage}</span>`);
+                el.innerHTML = translatedText;
+
+            } else if (icon) {
+                //If there's icons, keep it
+                el.innerHTML = '';
+                el.appendChild(icon);
+                el.appendChild(document.createTextNode(' ' + text));
+
+            } else if (text) {
+                // If there's no icon
+                el.innerHTML = text;
+            }
+        });
+        
+        // يتم تحديث زر المصادقة بعد تحديث اللغة
+        updateAuthLink(lang);
+
+        // save the chosen lang in localStorage
+        localStorage.setItem("lang", lang);
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // Image click to show larger version
+        const images = document.querySelectorAll('.image-card img');
+        images.forEach(img => {
+            img.addEventListener('click', function() {
+                const overlay = document.createElement('div');
+                overlay.style.cssText = `
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0,0,0,0.8);
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    z-index: 1000;
+                    cursor: pointer;
+                `;
+
+                const largeImg = document.createElement('img');
+                largeImg.src = this.src;
+                largeImg.style.cssText = `
+                    max-width: 90%;
+                    max-height: 90%;
+                    border-radius: 10px;
+                `;
+
+                overlay.appendChild(largeImg);
+                document.body.appendChild(overlay);
+
+                overlay.addEventListener('click', () => {
+                    document.body.removeChild(overlay);
+                });
+            });
+        });
+
+        // Add fade-in animation to cards
+        const cards = document.querySelectorAll('.illness-card');
+        cards.forEach((card, index) => {
+            setTimeout(() => {
+                card.classList.add('fade-in');
+            }, index * 200);
+        });
+
+        // 🌟 تطبيق اللغة ومنطق الملف الشخصي الموحد
+        const savedLang = localStorage.getItem("lang") || "en";
+        switchLang(savedLang);
+
+        const profileToggle = document.getElementById('profile-toggle');
+        const profileLink = document.getElementById('profileLink');
+
+        // ✅ إضافة منطق حماية التوجيه لصفحة الملف الشخصي
+        if (profileLink) {
+            profileLink.addEventListener('click', function(event) {
+                const isLoggedIn = localStorage.getItem('loggedIn') === 'true' && localStorage.getItem('token');
+                const currentLang = localStorage.getItem('lang') || 'en';
+
+                if (!isLoggedIn) {
+                    event.preventDefault(); // منع التوجيه الافتراضي
+                    alert(currentLang === 'ar' ? "يجب تسجيل الدخول لعرض الملف الشخصي." : "You must log in to view the profile.");
+                    window.location.href = "{{ url_for('login') }}"; // التوجيه لصفحة تسجيل الدخول
+                } else {
+                    window.location.href = "{{ url_for('profile') }}";
+                }
+                if (profileToggle) profileToggle.classList.remove('active');
+            });
+        }
+
+
+        if (profileToggle) {
+            profileToggle.addEventListener('click', function(event) {
+                // منع التنقل إذا تم النقر على أيقونة القائمة الرئيسية
+                if (event.target.tagName !== 'A' || event.target.id === 'profileDropdownToggle') {
+                    event.preventDefault();
+                }
+                this.classList.toggle('active');
+            });
+
+            // إغلاق القائمة عند النقر خارجها
+            document.addEventListener('click', (event) => {
+                if (!profileToggle.contains(event.target)) {
+                    profileToggle.classList.remove('active');
+                }
+            });
+        }
+    });
+
+</script>
+
+</html>

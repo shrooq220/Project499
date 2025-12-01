@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='Main.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+    <title>DermaLens • Result</title>
+
+    <style>
+        :root {
+            --brand-brown: #a18664;
+        }
+
+        /* تنسيقات موحدة لتمييز الصفحة النشطة (للتناسق) */
+        .navigation .navLinks li a:hover,
+        .navigation .navLinks li.active-page>a,
+        .navigation .navLinks li.profile-menu.active-page>a {
+            color: var(--brand-brown);
+            font-weight: 600;
+        }
+
+        /* ✅ تنسيقات قائمة الملف الشخصي الموحدة */
+        .profile-menu .dropdown {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 100%;
+            background-color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            padding: 10px 0;
+            min-width: 180px;
+            z-index: 10;
+        }
+
+        .profile-menu.active .dropdown {
+            display: block;
+        }
+
+        /* تنسيقات أخرى للصفحة */
+        .site-footer {
+            /* لتثبيت موضعه بالنسبة لنافذة العرض */
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .separator {
+            height: 1px;
+            background-color: #eee;
+            margin: 5px 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="details-hw" class="header-wrapper">
+        <header>
+            <nav class="navigation container">
+                <div class="logo">
+                    <a href="{{ url_for('diagnosis') }}">DermaLens</a>
+                </div>
+                <ul class="navLinks">
+                    <li><a href="{{ url_for('history') }}" data-key="history">History</a></li>
+                    <li><a href="{{ url_for('community') }}" data-key="community">Community</a></li>
+                    <li><a href="{{ url_for('about') }}" data-key="about">About</a></li>
+
+                    <li class="profile-menu" id="profile-toggle">
+                        <a href="#" title="Account Menu" id="profileDropdownToggle"><i class="fa-solid fa-circle-user"></i></a>
+
+                        <div class="dropdown">
+                            <a href="#" id="profileLink" data-key="profile">Profile</a>
+
+                            <div class="separator"></div>
+
+                            <div class="lang-options">
+                                <a onclick="switchLang('ar')">عربي</a>
+                                <a onclick="switchLang('en')">English</a>
+                            </div>
+
+                            <div class="separator" id="authSeparator"></div>
+
+                            <a href="#" data-key="auth" id="authLink">Log Out</a>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+
+        <div class="illness-hero">
+            <p data-key="youhave">You Have a <span class="percentage">{{ confidence }}%</span>
+                <br>Chance that you have
+            </p>
+            <h1 data-key="diesase" id="diseaseNameDisplay">{{ pred_name }}</h1>
+            <p class="description" data-key="description">An autoimmune disease that can affect the skin and other organs. The skin symptoms
+                include a distinctive butterfly-shaped rash and other skin changes that can be triggered by sun exposure
+            </p>
+        </div>
+
+    </div>
+
+    <div class="video-container">
+        <video id="video" class="video" src="{{ url_for('static', filename='Pics/video.mp4') }}" autoplay muted loop></video>
+    </div>
+
+    <section class="details-sec">
+
+        <div class="illness-card symptoms-card">
+            <h3 data-key="Symptoms"><i class="fas fa-shield-alt illness-icon"></i>Symptoms</h3>
+            <ul class="symptoms-list">
+                <li class="symptom-item" data-key="s1">Butterfly-shaped rash across cheeks and nose</li>
+                <li class="symptom-item" data-key="s2">Red, scaly patches on sun-exposed areas</li>
+                <li class="symptom-item" data-key="s3">Mouth and nose sores</li>
+                <li class="symptom-item" data-key="s4">Hair loss in patches</li>
+                <li class="symptom-item" data-key="s5">Skin sensitivity to sunlight</li>
+                <li class="symptom-item" data-key="s6">Joint pain and fatigue</li>
+            </ul>
+        </div>
+
+        <div class="illness-card image-card">
+            <img src="{{ url_for('static', filename='Pics/images.jpg') }}" alt="Lupus body locations">
+            <div class="image-overlay">
+                <p data-key="picalt1">Areas commonly affected by lupus</p>
+            </div>
+        </div>
+
+    </section>
+
+    <section class="details-sec">
+        <div class="illness-card image-card">
+            <img src="{{ url_for('static', filename='Pics/skin-disease-human-health-problem-600nw-2530985179.webp') }}" alt="Lupus symptoms">
+            <div class="image-overlay">
+                <p data-key="picalt2">Characteristic lupus skin manifestations</p>
+            </div>
+        </div>
+
+        <div class="illness-card locations-card">
+            <h3 data-key="appears"><i class="fas fa-map-marker-alt illness-icon"></i>It can appears in:</h3>
+            <ul class="locations-list">
+                <li class="location-item" data-key="a1">Face (butterfly rash)</li>
+                <li class="location-item" data-key="a2">Scalp and hairline</li>
+                <li class="location-item" data-key="a3">Arms and hands</li>
+                <li class="location-item" data-key="a4">Chest and shoulders</li>
+                <li class="location-item" data-key="a5">Inside mouth and nose</li>
+            </ul>
+        </div>
+    </section>
+
+    <footer class="site-footer">
+        <div class="container">Dermalens. Copyright DERMALENS. All Rights Reserved</div>
+    </footer>
+
+</body>
+
+<script>
+    // ✅ دالة تسجيل الخروج الموحدة والموجهة لصفحة تسجيل الدخول
+    function logout() {
+        localStorage.removeItem('token');
+        localStorage.removeItem('loggedIn');
+        const lang = localStorage.getItem('lang') || 'en';
+        alert(lang === 'ar' ? 'تم تسجيل الخروج بنجاح.' : 'Logged out successfully.');
+        window.location.href = "{{ url_for('login') }}"; // التوجيه إلى صفحة تسجيل الدخول
+    }
+
+    const lupusVideo = document.getElementById('video');
+    lupusVideo.parentElement.addEventListener('mouseenter', () => lupusVideo.setAttribute('controls', ''));
+    lupusVideo.parentElement.addEventListener('mouseleave', () => lupusVideo.removeAttribute('controls'));
+
+    /* Change the language */
+    const translations = {
+        ar: {
+            history: "السجل",
+            community: "المجتمع",
+            about: "عنا",
+            profile: "الملف الشخصي", // ✅ تمت الإضافة
+            login: "تسجيل الدخول", // ✅ تمت الإضافة
+            logout: "تسجيل خروج", // ✅ تمت الإضافة
+            // 💡 استخدام Placeholder
+            youhave: "لديك احتمال بنسبة {percentage}<br>للإصابة بـ",
+            diesase: "الذئبة الحمراء",
+            description: "مرض مناعي ذاتي يمكن أن يؤثر على الجلد وأعضاء أخرى. من أعراضه الجلدية ظهور" +
+                " طفح جلدي مميز على شكل فراشة بالإضافة إلى تغيّرات جلدية أخرى قد تُحفَّز بالتعرض لأشعة الشمس.",
+            Symptoms: "الأعراض",
+            s1: "طفح جلدي على شكل فراشة يغطي الخدين والأنف",
+            s2: "بقع حمراء متقشرة في مناطق الجلد المعرّضة للشمس",
+            s3: "تقرّحات في الفم والأنف",
+            s4: "تساقط الشعر على شكل بقع",
+            s5: "حساسية الجلد لأشعة الشمس",
+            s6: "آلام المفاصل والشعور بالتعب",
+            picalt1: "المناطق الشائعة التي تتأثر بالذئبة",
+            picalt2: "المظاهر الجلدية المميزة للذئبة",
+            appears: "قد تظهر في:",
+            a1: "الوجه (طفح على شكل الفراشة)",
+            a2: "فروة الرأس وخط الشعر",
+            a3: "الذراعان واليدان",
+            a4: "الصدر والكتفان",
+            a5: "داخل الفم والأنف",
+            treatments: "العلاج"
+        },
+        en: {
+            history: "History",
+            community: "Community",
+            about: "About",
+            profile: "Profile", // ✅ تمت الإضافة
+            login: "Log In", // ✅ تمت الإضافة
+            logout: "Log Out", // ✅ تمت الإضافة
+            // 💡 استخدام Placeholder
+            youhave: "You Have a {percentage}<br>Chance that you have",
+            diesase: "Lupus",
+            description: "An autoimmune disease that can affect the skin and other organs. The skin symptoms" +
+                " include a distinctive butterfly-shaped rash and other skin changes that can be triggered by sun exposure",
+            Symptoms: "Symptoms",
+            s1: "Butterfly-shaped rash across cheeks and nose",
+            s2: "Red, scaly patches on sun-exposed areas",
+            s3: "Mouth and nose sores",
+            s4: "Hair loss in patches",
+            s5: "Skin sensitivity to sunlight",
+            s6: "Joint pain and fatigue",
+            picalt1: "Areas commonly affected by lupus",
+            picalt2: "Characteristic lupus skin manifestations",
+            appears: "It can appears in:",
+            a1: "Face (butterfly rash)",
+            a2: "Scalp and hairline",
+            a3: "Arms and hands",
+            a4: "Chest and shoulders",
+            a5: "Inside mouth and nose",
+            treatments: "Treatments"
+        }
+    };
+
+    // ✅ دالة لتحديث رابط المصادقة (تسجيل دخول/تسجيل خروج)
+    function updateAuthLink(lang) {
+        const authLink = document.getElementById('authLink');
+        // يتم استخدام localStorage لتحديد حالة تسجيل الدخول
+        const isLoggedIn = localStorage.getItem('loggedIn') === 'true' && localStorage.getItem('token');
+
+        if (!authLink) return;
+
+        if (isLoggedIn) {
+            authLink.textContent = translations[lang]['logout'];
+            authLink.setAttribute('onclick', 'logout()');
+            authLink.removeAttribute('href');
+        } else {
+            authLink.textContent = translations[lang]['login'];
+            authLink.setAttribute('href', '{{ url_for('login') }}');
+            authLink.removeAttribute('onclick');
+        }
+    }
+
+
+    function switchLang(lang) {
+        document.documentElement.lang = lang;
+        document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
+
+        // حفظ النسبة المئوية الديناميكية قبل التبديل
+        const currentPercentage = document.querySelector('.percentage')?.textContent || "87%";
+
+
+        document.querySelectorAll("[data-key]").forEach(el => {
+            const key = el.dataset.key;
+            let text = translations[lang][key];
+
+            if (el.tagName === "INPUT" || el.tagName === "TEXTAREA") {
+                el.placeholder = text;
+            } else if (key === 'youhave' && text) {
+                // 💡 دمج النسبة المئوية الحقيقية في نص الترجمة
+                text = text.replace('{percentage}', `<span class="percentage">${currentPercentage}</span>`);
+                el.innerHTML = text;
+            } else if (text) {
+                // التحقق من وجود أيقونات في العناصر التي لها data-key
+                const icon = el.querySelector('i');
+                if (icon) {
+                    el.innerHTML = '';
+                    el.appendChild(icon);
+                    el.appendChild(document.createTextNode(' ' + text));
+                } else {
+                    el.innerHTML = text;
+                }
+            }
+        });
+
+        // يتم تحديث زر المصادقة بعد تحديث اللغة
+        updateAuthLink(lang);
+
+        // save the chosen lang in localStorage
+        localStorage.setItem("lang", lang);
+    }
+
+    // Enhanced interactive features
+    document.addEventListener('DOMContentLoaded', function () {
+        // Image click to show larger version
+        const images = document.querySelectorAll('.image-card img');
+        images.forEach(img => {
+            img.addEventListener('click', function () {
+                const overlay = document.createElement('div');
+                overlay.style.cssText = `
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0,0,0,0.8);
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    z-index: 1000;
+                    cursor: pointer;
+                `;
+
+                const largeImg = document.createElement('img');
+                largeImg.src = this.src;
+                largeImg.style.cssText = `
+                    max-width: 90%;
+                    max-height: 90%;
+                    border-radius: 10px;
+                `;
+
+                overlay.appendChild(largeImg);
+                document.body.appendChild(overlay);
+
+                overlay.addEventListener('click', () => {
+                    document.body.removeChild(overlay);
+                });
+            });
+        });
+
+        // Add fade-in animation to cards
+        const cards = document.querySelectorAll('.illness-card');
+        cards.forEach((card, index) => {
+            setTimeout(() => {
+                card.classList.add('fade-in');
+            }, index * 200);
+        });
+
+        // 🌟 تطبيق اللغة ومنطق الملف الشخصي الموحد
+        const savedLang = localStorage.getItem("lang") || "en";
+        switchLang(savedLang);
+
+        const profileToggle = document.getElementById('profile-toggle');
+        const profileLink = document.getElementById('profileLink');
+
+        // ✅ إضافة منطق حماية التوجيه لصفحة الملف الشخصي
+        if (profileLink) {
+            profileLink.addEventListener('click', function (event) {
+                const isLoggedIn = localStorage.getItem('loggedIn') === 'true' && localStorage.getItem('token');
+                const currentLang = localStorage.getItem('lang') || 'en';
+
+                if (!isLoggedIn) {
+                    event.preventDefault(); // منع التوجيه الافتراضي
+                    alert(currentLang === 'ar' ? "يجب تسجيل الدخول لعرض الملف الشخصي." : "You must log in to view the profile.");
+                    window.location.href = "{{ url_for('login') }}"; // التوجيه لصفحة تسجيل الدخول
+                } else {
+                    window.location.href = "{{ url_for('profile') }}";
+                }
+                if (profileToggle) profileToggle.classList.remove('active');
+            });
+        }
+
+
+        if (profileToggle) {
+            profileToggle.addEventListener('click', function (event) {
+                // منع التنقل إذا تم النقر على أيقونة القائمة الرئيسية
+                if (event.target.tagName !== 'A' || event.target.id === 'profileDropdownToggle') {
+                    event.preventDefault();
+                }
+                this.classList.toggle('active');
+            });
+
+            // إغلاق القائمة عند النقر خارجها
+            document.addEventListener('click', (event) => {
+                if (!profileToggle.contains(event.target)) {
+                    profileToggle.classList.remove('active');
+                }
+            });
+        }
+    });
+
+</script>
+
+</html>
